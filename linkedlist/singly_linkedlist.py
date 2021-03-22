@@ -8,6 +8,7 @@ class Linkedlist:
     def __init__(self):
         self.head = None
 
+    # basic functions
     def traverse(self):
         if self.head is None:
             print("Empty")
@@ -36,6 +37,7 @@ class Linkedlist:
             print(f"{ele} is not present in the list")
             return
 
+    # reference functions
     def ref_to_last_node(self):
         if self.head is None:
             print("empty")
@@ -105,6 +107,8 @@ class Linkedlist:
         else:
             print(f"Index {pos} > len of list")
 
+    # insertion functions
+
     def insert_at_start(self, data):
         if self.head is None:
             self.head = Node(data)
@@ -125,7 +129,7 @@ class Linkedlist:
         cnode.next = Node(data)
         return
 
-    def insert_at_pos(self, pos, data):
+    def insert_after_pos(self, pos, data):
         if self.head is None and pos == 0:
             self.head = Node(data)
             return self.head
@@ -138,12 +142,71 @@ class Linkedlist:
             if index == pos:
                 new_node = Node(data)
                 new_node.next = cnode.next
-                cnode = new_node
+                cnode.next = new_node
                 return
             cnode = cnode.next
+            index += 1
         else:
             print(f"{pos} excedded the total length")
             return
+
+    def insert_before_pos(self, pos, data):
+        if self.head is None and pos == 0:
+            self.insert_at_start(data)
+            return
+        cnode = self.head
+        index = 0
+        while cnode and index < pos:
+            if index == pos - 1:
+                new_node = Node(data)
+                new_node.next = cnode.next
+                cnode.next = new_node
+                return
+            cnode = cnode.next
+            index += 1
+        else:
+            print(f"{pos} excedded the total length")
+            return
+
+    # deletion functions
+    def delete_first_node(self):
+        if self.head is None:
+            print("Empty")
+            return
+        self.head = self.head.next
+        return
+
+    def delete_last_node(self):
+        if self.head is None:
+            print("Empty list")
+            return
+        cnode = self.head
+        while cnode.next.next:
+            cnode = cnode.next
+        cnode.next = None
+        return
+
+    def delete_this_node(self, ele):
+        if self.head is None:
+            print("Empty")
+            return
+        cnode = self.head
+
+        if cnode.data == ele and cnode.next is None:
+            self.delete_first_node()
+            return
+
+        while cnode.next.next:
+            if cnode.next.data == ele:
+                cnode.next = cnode.next.next
+            cnode = cnode.next
+        else:
+            if cnode.next.data == ele:
+                cnode.next = None
+                return
+            else:
+                print(f"{ele} is not present in the list")
+                return
 
 
 l = Linkedlist()
@@ -154,16 +217,20 @@ l.insert_at_start(60)
 l.insert_at_start(70)
 # l.traverse()
 # l.searching(50)
-
 # l.ref_to_last_node()
 # l.ref_to_second_last()
 # l.ref_to_node_data(50)
 # l.ref_to_predNode(50)
 # l.ref_to_node_pos(4)
-
 # l.traverse()
 l.insert_at_end(50)
 l.insert_at_end(450)
+# l.traverse()
+l.insert_after_pos(1, 0)
+# l.traverse()
+l.insert_before_pos(8, 99)
+l.delete_first_node()
+l.delete_last_node()
 l.traverse()
-l.insert_at_pos(1, 0)
+l.delete_this_node(10)
 l.traverse()
