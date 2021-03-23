@@ -134,8 +134,38 @@ class Linkedlist:
 
         return new_node
 
+    # end of practice
+    def merge_by_swaping_links(self, second_list):
+        new_list = Linkedlist()
+        new_list.head = self.merge_by_links(self.head, second_list.head)
+        return new_list
 
-# end of practice
+    def merge_by_links(self, first, second):
+        if first.data <= second.data:
+            ptr = first
+            first = first.next
+        else:
+            ptr = second
+            second = second.next
+
+        third_list = ptr
+
+        while first and second:
+            if first.data <= second.data:
+                third_list.next = first
+                third_list = third_list.next
+                first = first.next
+            else:
+                third_list.next = second
+                third_list = third_list.next
+                second = second.next
+
+        if first:
+            third_list.next = first
+        else:
+            third_list.next = second
+
+        return ptr
 
 
 myLinkedlist = Linkedlist()
@@ -169,6 +199,12 @@ myLinkedlist2.bubble_sort()
 print("two sorted list")
 myLinkedlist1.traverse()
 myLinkedlist2.traverse()
-print("after mergeing")
-new_list = myLinkedlist1.merge_them2(myLinkedlist2)
+# print("after mergeing")
+
+# print("by swapping data")
+# new_list = myLinkedlist1.merge_them2(myLinkedlist2)
+
+
+print("By swapping links")
+new_list = myLinkedlist1.merge_by_swaping_links(myLinkedlist2)
 new_list.traverse()
