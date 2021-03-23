@@ -28,26 +28,7 @@ class Linkedlist:
         self.head = new_node
         return self.head
 
-    def bubble_sort(self):
-        if self.head is None:
-            print("empty")
-            return
-        end_node = None
-        while self.head.next is not end_node:
-            cnode = self.head
-            while cnode.next is not end_node:
-                next_node = cnode.next
-                if cnode.data > next_node.data:
-                    cnode.data, next_node.data = next_node.data, cnode.data
-
-                cnode = cnode.next
-
-            end_node = cnode
-
     def reverse(self):
-        if self.head is None or self.head.next is None:
-            return self.head
-
         prev_node = None
         cnode = self.head
         while cnode:
@@ -57,47 +38,23 @@ class Linkedlist:
             cnode = next_node
         self.head = prev_node
 
+    def bubble_sort(self):
+        if self.head is None or self.head.next is None:
+            return self.head
+
+        end_node = None
+        while self.head.next is not end_node:
+            cnode = self.head
+            while cnode.next is not end_node:
+                next_node = cnode.next
+                if cnode.data > next_node.data:
+                    # swap the data
+                    cnode.data, next_node.data = next_node.data, cnode.data
+
+                cnode = cnode.next
+            end_node = cnode
+
     def merge_them(self, second_list):
-        new_list = Linkedlist()
-        new_list.head = self.merge_two_list(self.head, second_list.head)
-        return new_list
-
-    def merge_two_list(self, first, second):
-        # compare the first node of both the lists and assign to the head of the third list
-        if first.data <= second.data:
-            new_node = Node(first.data)
-            first = first.next
-        else:
-            new_node = Node(second.data)
-            second = second.next
-
-        third_list = new_node
-
-        # go through both of the list
-        while first and second:
-            if first.data <= second.data:
-                third_list.next = Node(first.data)
-                first = first.next
-            else:
-                third_list.next = Node(second.data)
-                second = second.next
-            third_list = third_list.next
-
-        # if first list still has some nodes
-        while first:
-            third_list.next = Node(first.data)
-            first = first.next
-            third_list = third_list.next
-
-        while second:
-            third_list.next = Node(second.data)
-            second = second.next
-            third_list = third_list.next
-
-        return new_node
-
-    # practice round
-    def merge_them2(self, second_list):
         new_list = Linkedlist()
         new_list.head = self.merge2in1(self.head, second_list.head)
         return new_list
@@ -119,7 +76,6 @@ class Linkedlist:
             else:
                 third_list.next = Node(second.data)
                 second = second.next
-
             third_list = third_list.next
 
         while first:
@@ -129,18 +85,17 @@ class Linkedlist:
 
         while second:
             third_list = Node(second.data)
-            second = second.data
+            second = second.next
             third_list = third_list.next
 
         return new_node
 
-    # end of practice
-    def merge_by_swaping_links(self, second_list):
+    def merge_by_swapping_links(self, second_list):
         new_list = Linkedlist()
-        new_list.head = self.merge_by_links(self.head, second_list.head)
+        new_list.head = self.swap_links(self.head, second_list.head)
         return new_list
 
-    def merge_by_links(self, first, second):
+    def swap_links(self, first, second):
         if first.data <= second.data:
             ptr = first
             first = first.next
@@ -155,6 +110,7 @@ class Linkedlist:
                 third_list.next = first
                 third_list = third_list.next
                 first = first.next
+
             else:
                 third_list.next = second
                 third_list = third_list.next
@@ -167,30 +123,13 @@ class Linkedlist:
 
         return ptr
 
-    def mergeSort(self, unsorted_list):
-        pass
-
-
-myLinkedlist = Linkedlist()
-myLinkedlist.insert_at_start(60)
-myLinkedlist.insert_at_start(545)
-myLinkedlist.insert_at_start(22)
-myLinkedlist.insert_at_start(435)
-# myLinkedlist.insert_at_start(430)
-# myLinkedlist.insert_at_start(103)
-# myLinkedlist.traverse()
-myLinkedlist.bubble_sort()
-# myLinkedlist.traverse()
-myLinkedlist.reverse()
-
-# myLinkedlist.traverse()
 
 myLinkedlist1 = Linkedlist()
 myLinkedlist1.insert_at_start(60)
 myLinkedlist1.insert_at_start(545)
 myLinkedlist1.insert_at_start(22)
 myLinkedlist1.insert_at_start(435)
-myLinkedlist1.bubble_sort()
+# myLinkedlist1.traverse()
 
 
 myLinkedlist2 = Linkedlist()
@@ -198,16 +137,15 @@ myLinkedlist2.insert_at_start(40)
 myLinkedlist2.insert_at_start(55)
 myLinkedlist2.insert_at_start(23)
 myLinkedlist2.insert_at_start(5)
+myLinkedlist2.reverse()
+# myLinkedlist2.traverse()
+
+myLinkedlist1.bubble_sort()
 myLinkedlist2.bubble_sort()
-print("two sorted list")
-myLinkedlist1.traverse()
+print("Befor megeing")
 myLinkedlist2.traverse()
-# print("after mergeing")
-
-# print("by swapping data")
-# new_list = myLinkedlist1.merge_them2(myLinkedlist2)
-
-
-print("By swapping links")
-new_list = myLinkedlist1.merge_by_swaping_links(myLinkedlist2)
-new_list.traverse()
+myLinkedlist1.traverse()
+print("after merging")
+# tmp = myLinkedlist1.merge_them(myLinkedlist2)
+tmp = myLinkedlist1.merge_by_swapping_links(myLinkedlist2)
+tmp.traverse()
