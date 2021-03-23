@@ -186,25 +186,28 @@ class Linkedlist:
         cnode.next = None
         return
 
-    def delete_this_node(self, ele):
+    def deleting_it(self, ele):
         if self.head is None:
-            print("Empty")
+            print("list is empty")
             return
         cnode = self.head
-
+        # deleting a single first node
         if cnode.data == ele and cnode.next is None:
-            self.delete_first_node()
+            cnode.next = None
             return
-
+        # deleting the middle nodes
         while cnode.next.next:
             if cnode.next.data == ele:
-                cnode.next = cnode.next.next
+                cnode = cnode.next.next
+                return
             cnode = cnode.next
         else:
-            if cnode.next.data == ele:
+            # deleting the last node
+            if cnode.next == ele and cnode.next is None:
                 cnode.next = None
                 return
             else:
+                # node not found
                 print(f"{ele} is not present in the list")
                 return
 
