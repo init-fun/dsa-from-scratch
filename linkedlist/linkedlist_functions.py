@@ -167,8 +167,79 @@ class Linkedlist:
 
         return ptr
 
-    def mergeSort(self, unsorted_list):
-        pass
+    def insert_cycle_at(self, data):
+        if self.head is None:
+            print("List is empty")
+            return
+        cnode = self.head
+        cycle_ptr = None
+        prev_node = None
+
+        while cnode:
+            if cnode.data == data:
+                cycle_ptr = cnode
+            prev_node = cnode
+            cnode = cnode.next
+        if cycle_ptr:
+            prev_node.next = cycle_ptr
+        else:
+            return f"{data} is not present in the list"
+
+    def has_cycle(self):
+        if self.find_cycle():
+            return True
+        return False
+
+    def find_cycle(self):
+        if self.head is None or self.head.next is None:
+            return None
+
+        fptr = self.head
+        sptr = self.head
+        while fptr and sptr.next:
+            if fptr == sptr:
+                # print("Has cycle")
+                return fptr
+            fptr = fptr.next
+            sptr = sptr.next.next
+        else:
+            # print("No cycle present")
+            return None
+
+    def remove_cycle(self):
+        cyclic_node = self.find_cycle()
+        if cyclic_node is None:
+            print("No cycle")
+            return
+        print(f"Cycle detected at {cyclic_node.data}")
+
+        fptr = cyclic_node
+        sptr = cyclic_node
+
+        len_cycle = 0
+
+        while True:
+            len_cycle += 1
+            sptr = sptr.next
+            if fptr == sptr:
+                break
+        print("Length of the cycle is ", len_cycle)
+
+        len_rem_list = 0
+        fptr = self.head
+        while fptr is not sptr:
+            len_rem_list += 1
+            fptr = fptr.next
+            sptr = sptr.next
+
+        print("Node not in cycle", len_rem_list)
+        total_node = len_cycle + len_rem_list
+        print("Total nodes : ", total_node)
+
+        fptr = self.head
+        for i in range(len(total_node) - 1):
+            fptr = fptr.next
+        fptr.next = None
 
 
 myLinkedlist = Linkedlist()
