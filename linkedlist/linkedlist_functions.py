@@ -241,6 +241,35 @@ class Linkedlist:
             fptr = fptr.next
         fptr.next = None
 
+    def merge_sort(self):
+
+        # break the list into two halve and keep on dong that
+        # till a single node remains
+        self.start = self.recursive_merge_sort(self.start)
+
+    def recursive_merge_sort(self):
+        # if list is empty or has one ele
+        if self.head is None or self.head.next is None:
+            return self.head
+
+        first_half = self.head
+        second_half = self.divide_the_list(self.head)
+        # we have two list
+        first_half = self.recursive_merge_sort(first_half)
+        second_half = self.recursive_merge_sort(second_half)
+        third_lst = self.merge_sort(first_half, second_half)
+        return third_lst
+
+    def divide_the_list(self, fptr):
+        sptr = self.head.next.next
+        while sptr and sptr.next:
+            fptr = fptr.next
+            sptr = sptr.next.next
+
+        second_lst = fptr.next
+        fptr.next = None
+        return second_lst
+
 
 myLinkedlist = Linkedlist()
 myLinkedlist.insert_at_start(60)
